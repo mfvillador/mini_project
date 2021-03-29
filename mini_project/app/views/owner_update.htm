@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Owner Page</title>
+    <link rel="stylesheet" href="../../ui/css/style.css">
+    <script src="../../ui/js/owner.js"></script>
+
+</head>
+<body>
+    <include href="header.htm" />
+    <br>    
+    
+    <div class="mainForm" id="updateForm">
+        <form method="post" action="{{ @BASE }}{{ @PARAMS.0 }}" class="mainFormContainer" id="updateFormContainer">
+            <h1>Update Item</h1>
+            <label for="pi_code">Code: </label>
+            <br>
+            <input type="text" name="pi_code" id="pi_code" value="{{ isset(@POST.pi_code)?htmlspecialchars(@POST.pi_code):'' }}"/>
+            <br>
+            <label for="pi_name">Item: </label>
+            <br>
+            <input type="text" name="pi_name" id="pi_name" value="{{ isset(@POST.pi_name)?htmlspecialchars(@POST.pi_name):'' }}"/>
+            <br>
+            <label for="pi_stock">Stock: </label>
+            <br>
+            <input type="text" name="pi_stock" id="pi_stock" value="{{ isset(@POST.pi_stock)?htmlspecialchars(@POST.pi_stock):'' }}"/>
+            <br>
+            <label for="pi_price">Price: </label>
+            <br>
+            <input type="text" name="pi_price" id="pi_price" value="{{ isset(@POST.pi_price)?htmlspecialchars(@POST.pi_price):'' }}"/>
+            <br>
+            <button type="submit" value="Update">Update</button>   
+        </form>
+        <button class="button" onclick="window.location.href='/owner';">Cancel</button>
+    </div>
+
+</body>
+</html>
