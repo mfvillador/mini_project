@@ -2,10 +2,49 @@
 <html>
 <head>
 
-    <title>Order</title>
+    <title>Customer Page</title>
+    <link rel="stylesheet" href="../../ui/css/style.css">
+    <script src="../../ui/js/customer.js"></script>
 
 </head>
 <body>
+    <include href="header.htm" />
+    <br>    
     
+    <div class="center">
+        <button class="button func_button" onclick="openViewItems()">View Items</button><br>
+        <button class="button func_button">Show Cart</button>
+    </div>
+
+    <div id="viewItem">
+    <button class="button func_button1" onclick="closeViewItems()">Close</button>
+    <table id="productItemTable">
+        <thead>
+            <tr>
+                <!--<th>Code</th>-->
+                <th>Item</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>    
+        <tbody>
+        <repeat group="{{ @product }}" value="{{ @item }}">
+            <tr>
+                <!--<td>{{ @item.pi_code }}</td>-->
+                <td>{{ @item.pi_name }}</td>
+                <td>{{ @item.pi_stock }}</td>
+                <td>{{ @item.pi_price }}</td>
+                <td><button class="button func_button1" onclick="window.location.href='/owner/update/{{ @item.pi_code }}';">Add to Cart</button></td>
+                <!--<td><button class="button func_button1" onclick="window.location.href='/owner/delete/{{ @item.pi_code }}';">Delete</button></td>-->
+                <!--
+                <td><a href="owner/update/{{ @item.pi_code }}">Update</a></td>
+                <td><a href="owner/delete/{{ @item.pi_code }}">Delete</a></td>
+                -->
+            </tr>
+        </repeat>
+        </tbody>
+    </table>
+    </div>
 </body>
 </html>
