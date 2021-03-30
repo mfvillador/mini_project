@@ -45,13 +45,11 @@ class OwnerController extends Controller {
 		$this->f3->set('html_title','Owner Update Item');
 		
 		$code = $this->f3->get('PARAMS.code');
-		$id1 = $this->f3->get('PARAMS.id');
 
 		$product = new ProductMapper($this->db);
 		$product->load(array('pi_code=?', $code));
 		$product->copyTo('POST');
 
-		$this->f3->set('id', $id1);
 		$this->f3->set('content','owner_update.htm');
 		echo Template::instance()->render('layout.htm');
 	}
@@ -66,11 +64,11 @@ class OwnerController extends Controller {
 	}
 
 	function deleteItem() {
-		$code - $this->f3->get('PARAMS.code');
+		$code = $this->f3->get('PARAMS.code');
 
 		$delete_item = new ProductMapper($this->db);
 		$delete = $delete_item->deleteItem($code);
 		
-		//$this->f3->reroute('/owner');
+		$this->f3->reroute('/owner');
 	}
 }
