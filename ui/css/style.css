@@ -79,7 +79,7 @@
     background-color: white;
 }
 
-.mainFormContainer input[type=text] {
+.mainFormContainer input[type=text], .mainFormContainer input[type=password] {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
@@ -87,7 +87,7 @@
     background: #f1f1f1;
 }
 
-.mainFormContainer input[type=text]:focus, .form-container input[type=password]:focus {
+.mainFormContainer input[type=text]:focus, .mainFormContainer input[type=password]:focus {
     background-color: #ddd;
     outline: none;
 }

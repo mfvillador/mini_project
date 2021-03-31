@@ -2,6 +2,60 @@
 
 class CustomerController extends Controller {
 	
+	function renderLogin() {
+		$this->f3->set('html_title','Customer Login');
+
+		$this->f3->set('content','customer_log.htm');
+		echo Template::instance()->render('layout.htm');
+	}
+	
+	function loginCustomer() {
+		$cus_log = new CustomerMapper($this->db);
+		$cus_login = $cus_log->listCustomers();
+		$cus_uname = $this->f3->get('POST.cus_uname');
+		$cus_password = $this->f3->get('POST.cus_password');
+		
+		foreach($cus_login as $log){
+			if($cus_uname == $log->cus_uname && $cus_password == $log->cus_password){
+				$this->f3->reroute('/customer');
+			}
+		}
+
+		// else
+		$this->f3->reroute('/customerlog');		
+	}
+
+	function renderSignUp() {
+		$this->f3->set('html_title','Customer Sign Up');
+
+		$this->f3->set('content','customer_signup.htm');
+		echo Template::instance()->render('layout.htm');
+	}
+
+	function signUpCustomer() {
+		$cus_log = new CustomerMapper($this->db);
+		$cus_uname = $this->f3->get('POST.cus_uname');
+		$cus_password = $this->f3->get('POST.cus_password');
+		$cus_password2 = $this->f3->get('POST.cus_password2');
+		
+		$cus_sign = $cus_log->listCustomers();
+		// confrims password
+		if($cus_password == $cus_password2){
+			// checks if user name already exists
+			foreach($cus_sign as $sign){
+				if($cus_uname == $sign->cus_uname){
+					// uname already exists
+					$this->f3->reroute('/customersign');
+				}	
+			}
+			$cus_log->addCustomer();
+			$this->f3->reroute('/customerlog');
+		}
+
+		//else
+		$this->f3->reroute('/customersign');
+	}
+
 	function render() {
 		$this->f3->set('html_title','Customer Page');
 		

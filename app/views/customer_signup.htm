@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Customer Page</title>
+    <link rel="stylesheet" href="../../ui/css/style.css">
+    <script src="../../ui/js/customer.js"></script>
+
+</head>
+<body>
+    <include href="header.htm" />
+    <br>    
+    
+    <div class="mainForm" id="customerLogForm">
+        <form method="post" action="{{ @BASE }}{{ @PARAMS.1 }}" class="mainFormContainer" id="updateFormContainer">
+            <h1>Sign Up</h1>
+            <label for="cus_uname">User Name</label>
+            <br>
+            <input type="text" name="cus_uname" id="cus_uname"/>
+            <br>                                                      
+            <label for="cus_password">Password</label>
+            <br>
+            <input type="password" name="cus_password" id="cus_password"/>
+            <br>
+            <label for="cus_password2">Confirm Password</label>
+            <br>
+            <input type="password" name="cus_password2" id="cus_password2"/>
+            <br>
+            <button type="submit" value="Sign Up">Sign Up</button>   
+        </form>
+        <button class="button" onclick="window.location.href='/customerlog';">Cancel</button>
+    </div>
+    
+</body>
+</html>
