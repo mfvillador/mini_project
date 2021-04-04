@@ -86,24 +86,43 @@ class CustomerController extends Controller {
 	function addToCart() {
 		$add_to_cart = new CustomerCartMapper($this->db);
 
-		$prod_code = $this->f3->get('PARAMS.code');
 		$uname = $this->f3->get('SESSION.uname');
+		$code = $this->f3->get('PARAMS.code');
+		
+		// get product infos by code
+		$products = new ProductMapper($this->db);
+		$prods = $products->getByCode($code);
+		foreach($prods as $p){
+			$name = $p->pi_name;
+			$price = $p->pi_price;
+		}
+		
 
 		$cart = new CustomerCartMapper($this->db);
 		$cart_items = $cart->listCart($uname);
 
 		foreach($cart_items as $item){
-			if($item->pi_code == $prod_code && $item->cus_uname == $uname){
+			if($item->pi_code == $code && $item->cus_uname == $uname){
 				// order already exist, increment only
 				$add_to_cart->getById($item->cc_id);
-				$add_to_cart->count++;
+				$add_to_cart->order_count++;
 				$add_to_cart->save();
 				
 				$this->f3->reroute('/customer/' . $uname);
 			}
 		}
 
-		$add_to_cart->addItemToCart($prod_code, $uname);
+		$add_to_cart->addItemToCart($uname, $code, $name, $price);
+		$this->f3->reroute('/customer/' . $uname);
+	}
+
+	function removeOrder() {
+		$uname = $this->f3->get('SESSION.uname');
+		$id = $this->f3->get('PARAMS.id');
+
+		$delete_item = new CustomerCartMapper($this->db);
+		$delete = $delete_item->removeOrderFromCart($id);
+		
 		$this->f3->reroute('/customer/' . $uname);
 	}
 

@@ -10,12 +10,12 @@
 <body>
     <include href="header.htm" />
     <br>    
-    <div class='upper'>
+    <div class="upper" id="userDisplay">
         <h1>Hi {{ @uname }}!</h1>
     </div>
     <div class="center">
         <button class="button func_button" onclick="openViewItems()">View Items</button><br>
-        <button class="button func_button">Show Cart</button>
+        <button class="button func_button" onclick="openShowCart()">Show Cart</button>
     </div>
 
     <!--ITEM TABLE-->
@@ -58,8 +58,8 @@
                 <tr>
                     <!--<th>Code</th>-->
                     <th>Item</th>
-                    <th>Quantity</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Action</th>
                 </tr>
             </thead>    
@@ -67,10 +67,10 @@
             <repeat group="{{ @cart }}" value="{{ @item }}">
                 <tr>
                     <!--<td>{{ @item.pi_code }}</td>-->
-                    <td>{{ @item.pi_name }}</td>
-                    <td>{{ @item.pi_stock }}</td>
-                    <td>{{ @item.pi_price }}</td>
-                    <td><button class="button func_button1" onclick="window.location.href='/customer/addtocart/{{ @item.pi_code }}';">Remove</button></td>
+                    <td>{{ @item.order_name }}</td>
+                    <td>{{ @item.order_price }}</td>
+                    <td>{{ @item.order_count }}</td>
+                    <td><button class="button func_button1" onclick="window.location.href='/customer/removeorder/{{ @item.cc_id }}';">Remove</button></td>
                     <!--<td><button class="button func_button1" onclick="window.location.href='/owner/delete/{{ @item.pi_code }}';">Delete</button></td>-->
                     <!--
                     <td><a href="owner/update/{{ @item.pi_code }}">Update</a></td>
@@ -80,8 +80,10 @@
             </repeat>
             </tbody>
         </table>
-        </div>
 
+        <button class="button func_button1" onclick="closeShowCart()">Check Out</button>
+    </div>
+        
 
 
 

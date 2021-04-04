@@ -62,6 +62,13 @@
     text-transform: uppercase;
 }
 
+#userDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(7, 112, 51);
+}
+
 #viewItem {
     display: none;
     width: 50%;
