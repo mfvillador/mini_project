@@ -58,7 +58,18 @@
     /*border: 3px solid green;*/ 
 }
 
+.upper {
+    text-transform: uppercase;
+}
+
 #viewItem {
+    display: none;
+    width: 50%;
+    margin: auto;
+    padding: 10px;
+}
+
+#showCart {
     display: none;
     width: 50%;
     margin: auto;
