@@ -47,7 +47,7 @@ class CustomerController extends Controller {
 			// checks if user name already exists
 			foreach($cus_sign as $sign){
 				if($cus_uname == $sign->cus_uname){
-					// uname already exists
+					// user name already exists
 					$this->f3->reroute('/customersign');
 				}	
 			}
@@ -63,7 +63,12 @@ class CustomerController extends Controller {
 		$this->f3->set('html_title','Customer Page');
 		
 		$uname = $this->f3->get('PARAMS.uname');
+		
+		$full_name = new CustomerMapper($this->db);
+		$full_name->getByUserName($uname);
+		
 		$this->f3->set('uname', $uname);
+		$this->f3->set('fname', $full_name->cus_fname);
 		$this->f3->set('SESSION.uname', $uname);
 
         $display_prod = new ProductMapper($this->db);
@@ -72,15 +77,33 @@ class CustomerController extends Controller {
 		$display_cart = new CustomerCartMapper($this->db);
 		$cart = $display_cart->listCart($uname);
 
-		//$del_prod = new ProductMapper($this->db);
-		//$prod = $del_prod->deleteItem('B1')[0];
-		//$this->f3->set('product1', $prod1);
+		$display_order = new CustomerCheckoutMapper($this->db);
+		$order = $display_order->listCheckout($uname);
+
+		// totals the price of the checked out order
+		$total_price = $this->getTotalPrice($uname);
+
 		$this->f3->set('product', $products);
 		$this->f3->set('cart', $cart);
+		$this->f3->set('order', $order);
+		$this->f3->set('total', $total_price);
 
 		$this->f3->set('content','customer.htm');
 		echo Template::instance()->render('layout.htm');   
 
+	}
+
+	function getTotalPrice($uname){
+		$checkout = new CustomerCheckoutMapper($this->db);
+		$order = $checkout->listCheckout($uname);
+
+		$total_price = '0'; // initialize total price
+ 
+		foreach($order as $ord){
+			$total_price += $ord->order_price * $ord->order_count;
+		}
+
+		return $total_price;
 	}
 
 	function addToCart() {
@@ -91,12 +114,9 @@ class CustomerController extends Controller {
 		
 		// get product infos by code
 		$products = new ProductMapper($this->db);
-		$prods = $products->getByCode($code);
-		foreach($prods as $p){
-			$name = $p->pi_name;
-			$price = $p->pi_price;
-		}
-		
+		$products->getByCode($code);
+		$name = $products->pi_name;
+		$price = $products->pi_price;
 
 		$cart = new CustomerCartMapper($this->db);
 		$cart_items = $cart->listCart($uname);
@@ -126,9 +146,34 @@ class CustomerController extends Controller {
 		$this->f3->reroute('/customer/' . $uname);
 	}
 
-	function reduceItemStocks($id) {
-		$to_reduce = new ProductMapper($this->db);
+	function checkoutCart() {
+		$uname = $this->f3->get('PARAMS.uname');
+		
+		$cart = new CustomerCartMapper($this->db);
+		$order = $cart->listCart($uname);
+		
+		// copying from cart to checkout
+		foreach($order as $ord){
+			$checkout = new CustomerCheckoutMapper($this->db);
+			$code = $ord->pi_code;
+			$name = $ord->order_name;
+			$price = $ord->order_price;
+			$count = $ord->order_count;
+			$checkout->addOrderToCheckout($uname, $code, $name, $price, $count);
+			
+			$remove = new CustomerCartMapper($this->db);
+			$remove->removeOrderFromCart($ord->cc_id);
+			$this->reduceItemStocks($code, $count);
+		}	
+		
+		$this->f3->reroute('/customer/' . $uname);
+	}
 
+	function reduceItemStocks($code, $count) {
+		$to_reduce = new ProductMapper($this->db);
+		$to_reduce->getByCode($code);
+		$to_reduce->pi_stock -= $count;
+		$to_reduce->save();
 	}
 
 

@@ -16,8 +16,8 @@ class CustomerMapper extends DB\SQL\Mapper{
         $this->save();
     }
 
-    public function getByCode($code) {
-        $this->load(array('pi_code=?', $code));
+    public function getByUserName($uname) {
+        $this->load(array('cus_uname=?', $uname));
         return $this->query;
     }
 

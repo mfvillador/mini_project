@@ -27,7 +27,7 @@
     background-color: white; 
     color: rgb(7, 112, 51); 
     border: 2px solid #4CAF50;
-    width: 35%;
+    width: 20%;
     font-size: 25px;
     padding: 32px 32px;
 }
@@ -42,7 +42,7 @@
     color: rgb(7, 112, 51); 
     width: 100%;
     font-size: 15px;
-    padding: 20px;
+    padding: 10px;
 }
 
 .func_button1:hover {
@@ -54,7 +54,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 100px;
     /*border: 3px solid green;*/ 
 }
 
@@ -69,6 +69,13 @@
     color: rgb(7, 112, 51);
 }
 
+#totalDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(7, 112, 51);
+}
+
 #viewItem {
     display: none;
     width: 50%;
@@ -77,6 +84,20 @@
 }
 
 #showCart {
+    display: none;
+    width: 50%;
+    margin: auto;
+    padding: 10px;
+}
+
+#yourOrder {
+    display: none;
+    width: 50%;
+    margin: auto;
+    padding: 10px;
+}
+
+#viewOrder {
     display: none;
     width: 50%;
     margin: auto;

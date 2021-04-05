@@ -11,11 +11,12 @@
     <include href="header.htm" />
     <br>    
     <div class="upper" id="userDisplay">
-        <h1>Hi {{ @uname }}!</h1>
+        <h1>Hi {{ @fname }}!</h1>
     </div>
     <div class="center">
         <button class="button func_button" onclick="openViewItems()">View Items</button><br>
         <button class="button func_button" onclick="openShowCart()">Show Cart</button>
+        <button class="button func_button" onclick="openYourOrder()">Your Order</button>
     </div>
 
     <!--ITEM TABLE-->
@@ -81,9 +82,35 @@
             </tbody>
         </table>
 
-        <button class="button func_button1" onclick="closeShowCart()">Check Out</button>
+        <button class="button func_button1" onclick="window.location.href='/customer/checkoutcart/{{ @uname }}';">Check Out</button>
     </div>
-        
+
+    <div id="yourOrder">
+        <button class="button func_button1" onclick="closeShowCart()">Close</button>
+        <table id="productItemTable">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>    
+            <tbody>
+            <repeat group="{{ @order }}" value="{{ @item }}">
+                <tr>
+                    <td>{{ @item.order_name }}</td>
+                    <td>{{ @item.order_price }}</td>
+                    <td>{{ @item.order_count }}</td>
+                </tr>
+            </repeat>
+            </tbody>
+        </table>
+
+        <div class="upper" id="totalDisplay">
+            <h3>TOTAL: {{ @total }}</h3>
+        </div>
+
+    </div>    
 
 
 
