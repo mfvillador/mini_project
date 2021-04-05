@@ -11,6 +11,11 @@ class CustomerCartMapper extends DB\SQL\Mapper{
         return $this->query;
     }
 
+    public function listAllCart() {
+        $this->load();
+        return $this->query;
+    }
+
     public function addItemToCart($uname, $code, $name, $price) {
         $this->cus_uname = $uname;
         $this->pi_code = $code;
@@ -25,9 +30,18 @@ class CustomerCartMapper extends DB\SQL\Mapper{
         return $this->query;
     }
 
+    public function getByCode($code) {
+        $this->load(array('pi_code=?', $code));
+        return $this->query;
+    }
+
     public function removeOrderFromCart($id) {
         $this->load(array('cc_id=?', $id));
         $this->erase();
     }
 
+    public function removeByCode($code) {
+        $this->load(array('pi_code=?', $code));
+        $this->erase();
+    }
 }

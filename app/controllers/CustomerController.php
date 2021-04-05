@@ -72,7 +72,7 @@ class CustomerController extends Controller {
 		$this->f3->set('SESSION.uname', $uname);
 
         $display_prod = new ProductMapper($this->db);
-		$products = $display_prod->viewItems();	
+		$products = $display_prod->customerView();	
 
 		$display_cart = new CustomerCartMapper($this->db);
 		$cart = $display_cart->listCart($uname);
@@ -113,10 +113,10 @@ class CustomerController extends Controller {
 		$code = $this->f3->get('PARAMS.code');
 		
 		// get product infos by code
-		$products = new ProductMapper($this->db);
-		$products->getByCode($code);
-		$name = $products->pi_name;
-		$price = $products->pi_price;
+		$product = new ProductMapper($this->db);
+		$product->getByCode($code);
+		$name = $product->pi_name;
+		$price = $product->pi_price;
 
 		$cart = new CustomerCartMapper($this->db);
 		$cart_items = $cart->listCart($uname);
@@ -125,8 +125,11 @@ class CustomerController extends Controller {
 			if($item->pi_code == $code && $item->cus_uname == $uname){
 				// order already exist, increment only
 				$add_to_cart->getById($item->cc_id);
-				$add_to_cart->order_count++;
-				$add_to_cart->save();
+				// check item availability
+				if($product->pi_stock > $add_to_cart->order_count){
+					$add_to_cart->order_count++;
+					$add_to_cart->save();
+				}	
 				
 				$this->f3->reroute('/customer/' . $uname);
 			}
@@ -165,6 +168,35 @@ class CustomerController extends Controller {
 			$remove->removeOrderFromCart($ord->cc_id);
 			$this->reduceItemStocks($code, $count);
 		}	
+		
+		// 
+		$prod_items = new ProductMapper($this->db);
+		$items = $prod_items->viewItems();
+		
+		foreach($items as $i){
+			$list_cart = new CustomerCartMapper($this->db);
+			
+			// removing items in cart with 0 stock
+			if($i->pi_stock == '0'){
+				$cart = $list_cart->listAllCart();
+				foreach($cart as $c){
+					if($c->pi_code == $i->pi_code){
+						$remove = new CustomerCartMapper($this->db);
+						$remove->removeOrderFromCart($c->cc_id);
+					}
+				}
+				continue;
+			}
+
+			// reduce item count to max stock
+			$cart = $list_cart->getByCode($i->pi_code);
+			foreach($cart as $c){
+				if($c->order_count > $i->pi_stock){
+					$c->order_count = $i->pi_stock;
+					$c->save();
+				}
+			}
+		}
 		
 		$this->f3->reroute('/customer/' . $uname);
 	}

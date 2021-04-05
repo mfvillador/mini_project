@@ -11,6 +11,16 @@ class ProductMapper extends DB\SQL\Mapper{
         return $this->query;
     }
 
+    public function customerView() {
+        $this->load(array('pi_stock!=?', '0'));
+        return $this->query;
+    }
+
+    public function getZeroStock() {
+        $this->load(array('pi_stock=?', '0'));
+        return $this->query;
+    }
+
     public function addItem() {
         $this->copyFrom('POST');
         $this->save();
