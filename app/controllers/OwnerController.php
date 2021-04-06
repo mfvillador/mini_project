@@ -2,6 +2,58 @@
 
 class OwnerController extends Controller {
 	
+	function renderLogin() {
+		$this->f3->set('html_title','Owner Log In');
+		
+		$this->f3->set('content','owner_log.htm');
+		echo Template::instance()->render('layout.htm');
+	}
+
+	function loginOwner() {
+		// form values in htm file are already provided for testing
+		$owner = new OwnerMapper($this->db);
+		$owner_login = $owner->listOwner();
+		$own_uname = $this->f3->get('POST.own_uname');
+		$own_password = $this->f3->get('POST.own_password');
+		
+		foreach($owner_login as $log){
+			if($own_uname == $log->own_uname && $own_password == $log->own_password){
+				$this->f3->reroute('/owner');
+			}
+		}
+
+		// else
+		$this->f3->reroute('/ownerlog');		
+	}
+	
+	function renderChangePass() {
+		$this->f3->set('html_title', 'Owner Change Password');
+
+		$this->f3->set('content', 'owner_changepass.htm');
+		echo Template::instance()->render('layout.htm');
+	}
+
+	function ownerChangePass() {
+		$password = $this->f3->get('POST.own_password');
+		$new_pass = $this->f3->get('POST.new_password');
+		$new_pass1 = $this->f3->get('POST.new_password1');
+
+		$owner = new OwnerMapper($this->db);
+		$owner->listOwner();
+
+		if($owner->own_password == $password){
+			if($new_pass == $new_pass1){
+				$owner->own_password = $new_pass;
+				$owner->save();
+
+				$this->f3->reroute('/ownerlog');
+			}
+		}
+
+		// else
+		$this->f3->reroute('/ownerchangepass');
+	}
+
 	function render() {
 		$this->f3->set('html_title','Owner Page');
 		

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Owner Page</title>
+    <link rel="stylesheet" href="../../ui/css/style.css">
+    <script src="../../ui/js/owner.js"></script>
+
+</head>
+<body>
+    <include href="header.htm" />
+    <br>    
+    
+    <div class="mainForm" id="ownerChangePassForm">
+        <form method="post" action="{{ @BASE }}{{ @PARAMS.0 }}" class="mainFormContainer" id="updateFormContainer">
+            <h1>Owner Change Password</h1>                                                      
+            <label for="own_password">Password</label>
+            <br>
+            <input type="password" name="own_password" id="own_password" value="123456"/>
+            <br>
+            <label for="new_password">New Password</label>
+            <br>
+            <input type="password" name="new_password" id="new_password"/>
+            <br>
+            <label for="new_password1">Confirm New Password</label>
+            <br>
+            <input type="password" name="new_password1" id="new_password1"/>
+            <br>
+            <button type="submit" value="Log In">Change Password</button>   
+        </form>
+        <button class="button" onclick="window.location.href='/ownerlog';">Cancel</button>
+    </div>
+</body>
+</html>

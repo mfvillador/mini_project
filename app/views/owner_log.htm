@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Owner Page</title>
+    <link rel="stylesheet" href="../../ui/css/style.css">
+    <script src="../../ui/js/owner.js"></script>
+
+</head>
+<body>
+    <include href="header.htm" />
+    <br>    
+    
+    <div class="mainForm" id="ownerLogForm">
+        <form method="post" action="{{ @BASE }}{{ @PARAMS.0 }}" class="mainFormContainer" id="updateFormContainer">
+            <h1>Owner Log In</h1>
+            <label for="own_uname">User Name</label>
+            <br>
+            <input type="text" name="own_uname" id="own_uname" value="admin"/>
+            <br>                                                      
+            <label for="own_password">Password</label>
+            <br>
+            <input type="password" name="own_password" id="own_password" value="123456"/>
+            <br>
+            <button type="submit" value="Log In">Log In</button>   
+        </form>
+        <button class="button" onclick="window.location.href='/ownerchangepass';">Change Password</button>
+    </div>
+</body>
+</html>
