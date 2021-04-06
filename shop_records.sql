@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2021 at 09:15 AM
+-- Generation Time: Apr 06, 2021 at 04:14 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -38,6 +38,8 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`cus_uname`, `cus_password`, `cus_fname`) VALUES
+('boyet', 'zxc', 'Boyet Null'),
+('jerald', 'asd', 'Jerald Feranil'),
 ('marvin', 'qwe', 'Marvin Villador');
 
 -- --------------------------------------------------------
@@ -73,6 +75,24 @@ CREATE TABLE `customer_checkout` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `owner`
+--
+
+CREATE TABLE `owner` (
+  `own_uname` varchar(50) NOT NULL,
+  `own_password` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `owner`
+--
+
+INSERT INTO `owner` (`own_uname`, `own_password`) VALUES
+('admin', '123456');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product_items`
 --
 
@@ -88,10 +108,10 @@ CREATE TABLE `product_items` (
 --
 
 INSERT INTO `product_items` (`pi_code`, `pi_name`, `pi_stock`, `pi_price`) VALUES
-('B1', 'FOXTER', 10, '2999'),
-('B2', 'TRINX', 10, '2999'),
-('B3', 'MERIDA', 10, '2999'),
-('B4', 'CANNONDALE', 10, '2999');
+('B1', 'FOXTER', 2, '2999'),
+('B2', 'TRINX', 9, '2999'),
+('B3', 'MERIDA', 9, '2999'),
+('B4', 'CANNONDALE', 9, '2999');
 
 --
 -- Indexes for dumped tables
@@ -120,6 +140,12 @@ ALTER TABLE `customer_checkout`
   ADD KEY `pi_code` (`pi_code`);
 
 --
+-- Indexes for table `owner`
+--
+ALTER TABLE `owner`
+  ADD PRIMARY KEY (`own_uname`);
+
+--
 -- Indexes for table `product_items`
 --
 ALTER TABLE `product_items`
@@ -133,13 +159,13 @@ ALTER TABLE `product_items`
 -- AUTO_INCREMENT for table `customer_cart`
 --
 ALTER TABLE `customer_cart`
-  MODIFY `cc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `cc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `customer_checkout`
 --
 ALTER TABLE `customer_checkout`
-  MODIFY `cch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `cch_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
