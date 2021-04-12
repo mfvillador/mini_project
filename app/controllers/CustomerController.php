@@ -139,9 +139,31 @@ class CustomerController extends Controller {
 		$this->f3->reroute('/customer/' . $uname);
 	}
 
-	function removeOrder() {
+	function submitForm() {
+		$submit_button = $this->f3->get('POST.submit_button');
 		$uname = $this->f3->get('SESSION.uname');
-		$id = $this->f3->get('PARAMS.id');
+	
+		// Checks if checkout or remove
+		if($submit_button == "Check Out"){
+			$this->checkoutCart();
+		}
+		// find and get hold of the id
+		else{
+			$cart = new CustomerCartMapper($this->db);
+			$cus_cart = $cart->listCart($uname);
+			foreach($cus_cart as $c){
+				$id = $this->f3->get('POST.' . $c->cc_id);
+				if($id == "Remove"){
+					// remove
+					$this->removeOrder($c->cc_id);
+				}
+			}
+		}
+
+	}
+
+	function removeOrder($id) {
+		$uname = $this->f3->get('SESSION.uname');
 
 		$delete_item = new CustomerCartMapper($this->db);
 		$delete = $delete_item->removeOrderFromCart($id);
@@ -157,19 +179,23 @@ class CustomerController extends Controller {
 		
 		// copying from cart to checkout
 		foreach($order as $ord){
-			$checkout = new CustomerCheckoutMapper($this->db);
-			$code = $ord->pi_code;
-			$name = $ord->order_name;
-			$price = $ord->order_price;
-			$count = $ord->order_count;
-			$checkout->addOrderToCheckout($uname, $code, $name, $price, $count);
-			
-			$remove = new CustomerCartMapper($this->db);
-			$remove->removeOrderFromCart($ord->cc_id);
-			$this->reduceItemStocks($code, $count);
+			// authenticate if the box is checked
+			$checked = $this->f3->get('POST.' . $ord->cc_id);
+			if($checked == 'checked'){
+				$checkout = new CustomerCheckoutMapper($this->db);
+				$code = $ord->pi_code;
+				$name = $ord->order_name;
+				$price = $ord->order_price;
+				$count = $ord->order_count;
+				$checkout->addOrderToCheckout($uname, $code, $name, $price, $count);
+				
+				$remove = new CustomerCartMapper($this->db);
+				$remove->removeOrderFromCart($ord->cc_id);
+				$this->reduceItemStocks($code, $count);
+			}
 		}	
 		
-		// 
+		// Checker for stocks quantity
 		$prod_items = new ProductMapper($this->db);
 		$items = $prod_items->viewItems();
 		
@@ -199,6 +225,7 @@ class CustomerController extends Controller {
 		}
 		
 		$this->f3->reroute('/customer/' . $uname);
+		
 	}
 
 	function reduceItemStocks($code, $count) {

@@ -25,7 +25,6 @@
     <table id="productItemTable">
         <thead>
             <tr>
-                <!--<th>Code</th>-->
                 <th>Item</th>
                 <th>Stock</th>
                 <th>Price</th>
@@ -35,29 +34,22 @@
         <tbody>
         <repeat group="{{ @product }}" value="{{ @item }}">
             <tr>
-                <!--<td>{{ @item.pi_code }}</td>-->
                 <td>{{ @item.pi_name }}</td>
                 <td>{{ @item.pi_stock }}</td>
                 <td>{{ @item.pi_price }}</td>
                 <td><button class="button func_button1" onclick="window.location.href='/customer/addtocart/{{ @item.pi_code }}';">Add to Cart</button></td>
-                <!--<td><button class="button func_button1" onclick="window.location.href='/owner/delete/{{ @item.pi_code }}';">Delete</button></td>-->
-                <!--
-                <td><a href="owner/update/{{ @item.pi_code }}">Update</a></td>
-                <td><a href="owner/delete/{{ @item.pi_code }}">Delete</a></td>
-                -->
             </tr>
         </repeat>
         </tbody>
     </table>
     </div>
 
-    
+    <!--
     <div id="showCart">
         <button class="button func_button1" onclick="closeShowCart()">Close</button>
         <table id="productItemTable">
             <thead>
                 <tr>
-                    <!--<th>Code</th>-->
                     <th>Item</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -67,16 +59,10 @@
             <tbody>
             <repeat group="{{ @cart }}" value="{{ @item }}">
                 <tr>
-                    <!--<td>{{ @item.pi_code }}</td>-->
                     <td>{{ @item.order_name }}</td>
                     <td>{{ @item.order_price }}</td>
                     <td>{{ @item.order_count }}</td>
                     <td><button class="button func_button1" onclick="window.location.href='/customer/removeorder/{{ @item.cc_id }}';">Remove</button></td>
-                    <!--<td><button class="button func_button1" onclick="window.location.href='/owner/delete/{{ @item.pi_code }}';">Delete</button></td>-->
-                    <!--
-                    <td><a href="owner/update/{{ @item.pi_code }}">Update</a></td>
-                    <td><a href="owner/delete/{{ @item.pi_code }}">Delete</a></td>
-                    -->
                 </tr>
             </repeat>
             </tbody>
@@ -84,6 +70,41 @@
 
         <button class="button func_button1" onclick="window.location.href='/customer/checkoutcart/{{ @uname }}';">Check Out</button>
     </div>
+    -->
+
+    <div class="checkoutForm" id="showCart">
+        <button class="button func_button1" onclick="closeShowCart()">Close</button>
+        <form method="post" action="{{ @BASE }}{{ @PARAMS.0 }}" class="mainFormContainer">
+            <table id="productItemTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>    
+                <tbody>
+                <repeat group="{{ @cart }}" value="{{ @item }}">
+                    <tr>
+                        <td><input type="checkbox" id="{{ @item.cc_id }}" name="{{ @item.cc_id }}" value="checked"></td>
+                        <td>{{ @item.order_name }}</td>
+                        <td>{{ @item.order_price }}</td>
+                        <td>{{ @item.order_count }}</td>
+                        <td><input class="button func_button1" name="{{ @item.cc_id }}" type="submit" value="Remove"></input></td>
+                    </tr>
+                </repeat>
+                </tbody>
+            </table>
+            <br>
+            <input class="button func_button1" name="submit_button" type="submit" value="Check Out"></input>
+        </form>    
+        
+    </div>
+
+
+
 
     <div id="yourOrder">
         <button class="button func_button1" onclick="closeShowCart()">Close</button>
