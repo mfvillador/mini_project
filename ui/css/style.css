@@ -29,7 +29,7 @@
     border: 2px solid #4CAF50;
     width: 20%;
     font-size: 25px;
-    padding: 32px 32px;
+    padding: 2% 2%;
 }
 
 .func_button:hover {
@@ -102,6 +102,13 @@
     width: 50%;
     margin: auto;
     padding: 10px;
+}
+
+.checkoutForm {
+    top: 10%;
+    left: 25%;
+    width: 45%;
+    margin: auto;
 }
 
 .mainForm {

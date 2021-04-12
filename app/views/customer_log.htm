@@ -12,7 +12,7 @@
     <br>    
     
     <div class="mainForm" id="customerLogForm">
-        <form method="post" action="{{ @BASE }}{{ @PARAMS.0 }}" class="mainFormContainer" id="updateFormContainer">
+        <form method="post" action="{{ @BASE }}{{ @PARAMS.0 }}" class="mainFormContainer" id="customerLogFormContainer">
             <h1>Log In</h1>
             <label for="cus_uname">User Name</label>
             <br>
@@ -22,9 +22,9 @@
             <br>
             <input type="password" name="cus_password" id="cus_password"/>
             <br>
-            <button type="submit" value="Log In">Log In</button>   
+            <button class="button func_button1" id="wew" type="submit" value="Log In">Log In</button>   
         </form>
-        <button class="button" onclick="window.location.href='/customersign';">Sign Up</button>
+        <button class="button func_button1" onclick="window.location.href='/customersign';">Sign Up</button>
     </div>
 </body>
 </html>
