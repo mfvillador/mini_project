@@ -104,6 +104,13 @@
     padding: 10px;
 }
 
+.deliverForm {
+    top: 10%;
+    left: 25%;
+    width: 45%;
+    margin: auto;
+}
+
 .checkoutForm {
     top: 10%;
     left: 25%;

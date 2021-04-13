@@ -68,7 +68,6 @@ class OwnerController extends Controller {
 
 		$this->f3->set('content','owner.htm');
 		echo Template::instance()->render('layout.htm');   
-
 	}
 
 	function renderAdd() {
@@ -116,12 +115,58 @@ class OwnerController extends Controller {
 		$this->f3->reroute('/owner');
 	}
 
-	function deliveredItem() {
-		$id = $this->f3->get('PARAMS.id');
+	function orderForm() {
 		
-		// delete item from checkout data
-		$remove_item = new CustomerCheckoutMapper($this->db);
-		$remove = $remove_item->removeItem($id);
+		$submit_button = $this->f3->get('POST.submit_button');
+		
+		// Checks if deliver or cancel
+		if($submit_button == "Deliver"){
+			$this->deliverItem();
+		}
+		else{
+			$cart = new CustomerCheckoutMapper($this->db);
+			$check_cart = $cart->listAllCheckout();
+
+			foreach($check_cart as $cc){
+				$id = $this->f3->get('POST.' . $cc->cch_id);
+				if($id == "Cancel"){
+					// cancel the order
+					$this->cancelOrder($cc->cch_id);
+				}
+			}
+
+		}
+		
+	}
+
+	function cancelOrder($id) {
+		$cancel = new CustomerCheckoutMapper($this->db);
+		$product = new ProductMapper($this->db);
+		
+		// return the stocks
+		$cancel->getById($id);
+		$product->getByCode($cancel->pi_code);
+		$product->pi_stock += $cancel->order_count;
+		$product->save();
+		//
+		$remove = new CustomerCheckoutMapper($this->db);
+		$remove->removeItem($id);
+
+		$this->f3->reroute('/owner');
+	}
+
+	function deliverItem() {
+		$cart = new CustomerCheckoutMapper($this->db);
+		$deliver = $cart->listAllCheckout();
+
+		foreach($deliver as $d){
+			$del = $this->f3->get('POST.' . $d->cch_id);
+			if($del == 'checked'){
+				// delete item from checkout data
+				$remove_item = new CustomerCheckoutMapper($this->db);
+				$remove_item->removeItem($d->cch_id);
+			}
+		}
 		
 		$this->f3->reroute('/owner');
 	}

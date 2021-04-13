@@ -38,42 +38,44 @@
                     <td>{{ @item.pi_price }}</td>
                     <td><button class="button func_button1" onclick="window.location.href='/owner/update/{{ @item.pi_code }}';">Update</button></td>
                     <td><button class="button func_button1" onclick="window.location.href='/owner/delete/{{ @item.pi_code }}';">Delete</button></td>
-                    <!--
-                    <td><a href="owner/update/{{ @item.pi_code }}">Update</a></td>
-                    <td><a href="owner/delete/{{ @item.pi_code }}">Delete</a></td>
-                    -->
                 </tr>
             </repeat>
             </tbody>
         </table>
     </div>
 
-    <div id="viewOrder">
+    <div class="deliverForm" id="viewOrder">
         <button class="button func_button1" onclick="closeViewOrders()">Close</button>
-        <table id="productItemTable">
-            <thead>
-                <tr>
-                    <th>Customer</th>
-                    <th>Code</th>
-                    <th>Item</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Action</th>
-                </tr>
-            </thead>    
-            <tbody>
-            <repeat group="{{ @order }}" value="{{ @item }}">
-                <tr>
-                    <td>{{ @item.cus_uname }}</td>
-                    <td>{{ @item.pi_code }}</td>
-                    <td>{{ @item.order_name }}</td>
-                    <td>{{ @item.order_price }}</td>
-                    <td>{{ @item.order_count }}</td>
-                    <td><button class="button func_button1" onclick="window.location.href='/owner/delivered/{{ @item.cch_id }}';">Delivered</button></td>
-                </tr>
-            </repeat>
-            </tbody>
-        </table>
+        <form method="post" action="{{ @BASE }}{{ @PARAMS.0 }}" class="mainFormContainer">
+            <table id="productItemTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Customer</th>
+                        <th>Code</th>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>    
+                <tbody>
+                <repeat group="{{ @order }}" value="{{ @item }}">
+                    <tr>
+                        <td><input type="checkbox" id="{{ @item.cch_id }}" name="{{ @item.cch_id }}" value="checked"></td>
+                        <td>{{ @item.cus_uname }}</td>
+                        <td>{{ @item.pi_code }}</td>
+                        <td>{{ @item.order_name }}</td>
+                        <td>{{ @item.order_price }}</td>
+                        <td>{{ @item.order_count }}</td>
+                        <td><input class="button func_button1" name="{{ @item.cch_id }}" type="submit" value="Cancel"></input></td>
+                    </tr>
+                </repeat>
+                </tbody>
+            </table>
+            <br>
+            <input class="button func_button1" name="submit_button" type="submit" value="Deliver"></input>
+        </form>
     </div>
 
 </body>

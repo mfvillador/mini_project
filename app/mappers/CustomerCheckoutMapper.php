@@ -26,7 +26,7 @@ class CustomerCheckoutMapper extends DB\SQL\Mapper{
     }
 
     public function getById($id) {
-        $this->load(array('cc_id=?', $id));
+        $this->load(array('cch_id=?', $id));
         return $this->query;
     }
 
