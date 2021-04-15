@@ -62,7 +62,7 @@
                 <tbody>
                 <repeat group="{{ @order }}" value="{{ @item }}">
                     <tr>
-                        <td><input type="checkbox" id="{{ @item.cch_id }}" name="{{ @item.cch_id }}" value="checked"></td>
+                        <td><input type="checkbox" id="{{ @item.cch_id }}" name="{{ @item.cch_id }}" value="checked" onclick="ableDeliverButton()"></td>
                         <td>{{ @item.cus_uname }}</td>
                         <td>{{ @item.pi_code }}</td>
                         <td>{{ @item.order_name }}</td>
@@ -74,7 +74,7 @@
                 </tbody>
             </table>
             <br>
-            <input class="button func_button1" name="submit_button" type="submit" value="Deliver"></input>
+            <input class="button func_button1" id="deliver_button" name="submit_button" type="submit" disabled="true" value="Deliver"></input>
         </form>
     </div>
 

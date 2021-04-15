@@ -88,7 +88,7 @@
                 <tbody>
                 <repeat group="{{ @cart }}" value="{{ @item }}">
                     <tr>
-                        <td><input type="checkbox" id="{{ @item.cc_id }}" name="{{ @item.cc_id }}" value="checked"></td>
+                        <td><input type="checkbox" id="{{ @item.cc_id }}" name="{{ @item.cc_id }}" onclick="ableCheckoutButton()" value="checked"></td>
                         <td>{{ @item.order_name }}</td>
                         <td>{{ @item.order_price }}</td>
                         <td>{{ @item.order_count }}</td>
@@ -98,7 +98,7 @@
                 </tbody>
             </table>
             <br>
-            <input class="button func_button1" name="submit_button" type="submit" value="Check Out"></input>
+            <input class="button func_button1" id="checkout_button" name="submit_button" type="submit" disabled="true" value="Check Out"></input>
         </form>    
         
     </div>

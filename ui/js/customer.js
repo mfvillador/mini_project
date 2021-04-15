@@ -29,3 +29,7 @@ function openYourOrder() {
 function closeYourOrder() {
     document.getElementById("yourOrder").style.display = "none";
 }
+
+function ableCheckoutButton() {
+    document.getElementById("checkout_button").disabled = false;
+}
